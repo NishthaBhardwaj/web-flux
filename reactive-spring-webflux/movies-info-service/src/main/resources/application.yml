@@ -1,0 +1,45 @@
+spring:
+  profiles:
+    active: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile:
+        - local
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: movieInfo
+
+---
+spring:
+  config:
+    activate:
+      on-profile:
+        - non-prod
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database:
+
+---
+spring:
+
+  config:
+    activate:
+      on-profile: prod
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database:
+
+
+
