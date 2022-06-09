@@ -13,7 +13,7 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database: movieInfo
+      database: local
 
 ---
 spring:
@@ -26,7 +26,7 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database:
+      database: local
 
 ---
 spring:
@@ -39,7 +39,14 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database:
+      database: local
+
+---
+logging:
+  level:
+    root: debug
+
+
 
 
 

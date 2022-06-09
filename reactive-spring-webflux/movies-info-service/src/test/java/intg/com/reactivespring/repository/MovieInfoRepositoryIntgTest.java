@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.ActiveProfiles;
+import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
 import java.time.LocalDate;
@@ -30,9 +31,9 @@ class MovieInfoRepositoryIntgTest {
         var movieinfos = List.of(new MovieInfo(null,"Batman Begins",
                   2005,List.of("Christian Bale","Michael Cane"), LocalDate.parse("2005-06-15")),
                 new MovieInfo(null,"The Dark Knight",
-                        2005,List.of("Christian Bale","HeathLedger"), LocalDate.parse("2008-07-18")),
+                        2008,List.of("Christian Bale","HeathLedger"), LocalDate.parse("2008-07-18")),
                 new MovieInfo("abc","Dark Knight Rises",
-                2005,List.of("Christian Bale","Tom Hardy"), LocalDate.parse("2012-07-20")));
+                2012,List.of("Christian Bale","Tom Hardy"), LocalDate.parse("2012-07-20")));
         movieInfoRepository.saveAll(movieinfos)
                 .blockLast();
     }
@@ -107,5 +108,33 @@ class MovieInfoRepositoryIntgTest {
         StepVerifier.create(movieInfoFlux)
                 .expectNextCount(2)
                 .verifyComplete();
+    }
+
+    @Test
+    void findByYear(){
+
+        var movieInfoFlux = movieInfoRepository.findByYear(2005);
+        StepVerifier.create(movieInfoFlux)
+                .assertNext(movie -> {
+                    assertEquals(2005,movie.getYear());
+                }).verifyComplete();
+
+
+
+    }
+
+    @Test
+    void findByName(){
+
+        String movieName = "Dark Knight Rises";
+
+        var movieInfoFlux = movieInfoRepository.findByName(movieName);
+        StepVerifier.create(movieInfoFlux)
+                .assertNext(movie -> {
+                    assertEquals(movieName,movie.getName());
+                }).verifyComplete();
+
+
+
     }
 }
